@@ -1,0 +1,15 @@
+# local package
+-e .
+
+# external requirements
+flake8
+ipykernel
+joblib
+matplotlib
+numpy
+pandas
+python-dotenv
+scikit-learn
+scipy
+seaborn
+SQLAlchemy
