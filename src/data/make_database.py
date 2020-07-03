@@ -29,7 +29,7 @@ def main(input_filepath, output_filepath):
             if df[col].dtype == object:
                 df[col] = df[col].astype('str')
         df.to_sql(raw_data_file, e, index=False)
-        logger.info(f'tablbe {raw_data_file} created')
+        logger.info(f'table {raw_data_file} created')
 
 
 if __name__ == '__main__':
