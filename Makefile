@@ -6,7 +6,7 @@
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROFILE = default
-PROJECT_NAME = data_challenge
+PROJECT_NAME = starbucks-mobile-app-offer-analysis
 PYTHON_INTERPRETER = python3
 
 ifeq (,$(shell which conda))
@@ -26,7 +26,7 @@ requirements:
 
 ## Make Database
 db: requirements
-	$(PYTHON_INTERPRETER) src/data/make_database.py data/raw data/raw
+	$(PYTHON_INTERPRETER) src/data/make_database.py data/raw data/interim
 
 ## Delete all compiled Python files
 clean:

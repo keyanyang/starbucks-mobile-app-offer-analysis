@@ -18,15 +18,18 @@ def main(input_filepath, output_filepath):
     logger.info('making database from raw data')
 
     raw_data_files = [filename for filename in os.listdir(input_filepath)
-                      if filename.endswith('csv.gz')]
+                      if filename.endswith('json')]
 
     db_path = os.path.join(output_filepath, 'raw_data.sqlite')
     e = sa.create_engine('sqlite:///' + db_path)
     for raw_data_file in sorted(raw_data_files):
-        pd.read_csv(f'{input_filepath}/{raw_data_file}',
-                    compression='gzip', index_col=0) \
-            .to_sql("raw_data", e,
-                    if_exists='append', index=False)
+        df = pd.read_json(f'{input_filepath}/{raw_data_file}',
+                    orient='records', lines=True)
+        for col in list(df):
+            if df[col].dtype == object:
+                df[col] = df[col].astype('str')
+        df.to_sql(raw_data_file, e, index=False)
+        logger.info(f'tablbe {raw_data_file} created')
 
 
 if __name__ == '__main__':
