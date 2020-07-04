@@ -28,8 +28,10 @@ def main(input_filepath, output_filepath):
         for col in list(df):
             if df[col].dtype == object:
                 df[col] = df[col].astype('str')
-        df.to_sql(raw_data_file, e, index=False)
-        logger.info(f'table {raw_data_file} created')
+
+        table_name = raw_data_file.split('.')[0]
+        df.to_sql(table_name, e, index=False)
+        logger.info(f'table {table_name} created')
 
 
 if __name__ == '__main__':
