@@ -1,6 +1,14 @@
-{NAME}
+Starbucks Mobile App Offer Analysis
 ==============================
 
+Build machine learning models to predict whether or not someone will respond to a Starbucks mobile app offer.
+
+Introduction
+------------
+
+Once every few days, Starbucks sends out an offer to users of the mobile app. Not all users receive the same offer and not all users take advantage of the offer they were given. The data set used for this article contains data that mimics customer behavior on the Starbucks rewards mobile app. 
+
+I build models to predict whether a customer will make use of the offer and dig into the data to find insights about Starbucks mobile app offer.
 
 Commands
 ------------
@@ -18,12 +26,12 @@ Note that the virtual environment has to be active to run the command below.
 Jupyter Notebook
 ------------
 
-[**➠   Go to the analysis in the Jupyter Notebook**](notebooks/analysis/analysis.ipynb)
+[**➠   Go to the analysis in the Jupyter Notebook**](notebooks/analysis.ipynb)
 
 
-Sample Predictions
+Post
 ------------
-
+[Starbucks Mobile App: How to Send Right Offer to Right Person](https://www.keyanyang.com/data/2020/07/09/starbucks-mobile-app-how-to-send-right-offer-to-right-person#data-preparation)
 
 Project Organization
 ------------
