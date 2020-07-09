@@ -98,3 +98,8 @@ def plot_average_amount(df_transaction, how):
     plt.title(f'The {how} of amount by offer use')
     plt.show()
 
+
+def plot_feature_importance(rf, feature_names):
+    pd.Series(rf.best_estimator_[1].feature_importances_,
+              index=feature_names).nlargest(10)\
+                  .plot(kind='barh', fontsize=18)

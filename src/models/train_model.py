@@ -1,14 +1,19 @@
 import logging
 import pandas as pd
+import numpy as np
+
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
 
 
-def data_preparation(df, test_size, random_state=0):
+def data_preparation(df, y, test_size=0.2, random_state=0):
     """Standardize data then permute and split DataFrame index into train and test.
     Parameters
     ----------
     df: pandas.DataFrame
+    y: str
     test_size: float
         Fraction between 0.0 and 1.0
     random_state: int
@@ -19,23 +24,15 @@ def data_preparation(df, test_size, random_state=0):
         X_train, X_test, y_train, y_test
     """
 
-    scl = StandardScaler()
-    independent_vars = df.columns.drop(['is_fully_paid', 'id'])
-    df_clean = pd.DataFrame(scl.fit_transform(df[independent_vars]),
-                            columns=independent_vars)
-    df_clean['id'] = df['id']
-    df_clean['is_fully_paid'] = df['is_fully_paid']
-
     logging.info("Splitting the data-frame into train and test parts")
 
-    X_train, X_test, y_train, y_test, idx_train, idx_test = train_test_split(
-        df_clean.drop(['is_fully_paid', 'id'], axis=1).values,
-        df_clean['is_fully_paid'].values,
-        df_clean['id'].values,
+    X_train, X_test, y_train, y_test = train_test_split(
+        df.drop([y], axis=1).values,
+        df[y].values,
         test_size=test_size,
         random_state=random_state
     )
-    return X_train, X_test, y_train, y_test, idx_train, idx_test
+    return X_train, X_test, y_train, y_test
 
 
 class MajorityVoteClassifier:
@@ -82,7 +79,7 @@ def run_majority_vote(X_train, y_train):
 
 def run_logistic_regression(X_train, y_train):
     """Use ridge logistic regression to train model.
-    The ridge parameter is found using 10-fold cross-validation.
+    The ridge parameter is found using 5-fold cross-validation.
     Parameters
     ----------
     X_train: numpy.ndarray
@@ -96,21 +93,26 @@ def run_logistic_regression(X_train, y_train):
     logging.info("Running the ridge logistic regression classifier")
 
     from sklearn.linear_model import LogisticRegression
-    from sklearn.model_selection import GridSearchCV
 
-    lr = LogisticRegression(random_state=0, solver='lbfgs')
+    pipeline = Pipeline([
+        ('scale', StandardScaler()),
+        ('clf', LogisticRegression(solver='liblinear', random_state=0))
+    ])
 
-    param_range = [2 ** x for x in range(-10, 10)]
+    param_grid = {
+        'clf__penalty': ['l1', 'l2'],
+        'clf__C': np.logspace(-4, 4, 20)
+    }
 
-    gs = GridSearchCV(
-        estimator=lr,
-        param_grid={'C': param_range},
-        cv=10
-    )
+    cv = GridSearchCV(
+        pipeline,
+        param_grid=param_grid,
+        cv = 5,
+        verbose=False)
 
-    gs.fit(X_train, y_train)
+    cv.fit(X_train, y_train)
 
-    return gs
+    return cv
 
 
 def run_random_forest(X_train, y_train):
@@ -129,16 +131,23 @@ def run_random_forest(X_train, y_train):
     logging.info("Running the random forest classifier")
 
     from sklearn.ensemble import RandomForestClassifier
-    from sklearn.model_selection import RandomizedSearchCV
 
-    rf = RandomForestClassifier(criterion='gini', random_state=0)
+    pipeline = Pipeline([
+        ('scale', StandardScaler()),
+        ('clf', RandomForestClassifier(criterion='gini', random_state=0))
+    ])
 
-    rs = RandomizedSearchCV(
-        estimator=rf,
-        param_distributions={'n_estimators': [10, 100]},
-        cv=10,
-        random_state=10)
+    param_grid = [
+        {'clf' : [RandomForestClassifier()],
+        'clf__n_estimators' : [10, 50, 100]}
+    ]
 
-    rs.fit(X_train, y_train)
+    cv = GridSearchCV(
+        pipeline,
+        param_grid = param_grid,
+        cv=5,
+        verbose=False)
 
-    return rs
+    cv.fit(X_train, y_train)
+
+    return cv
