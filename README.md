@@ -10,6 +10,12 @@ Once every few days, Starbucks sends out an offer to users of the mobile app. No
 
 I build models to predict whether a customer will make use of the offer and dig into the data to find insights about Starbucks mobile app offer.
 
+Installation
+------------
+
+To run this project, you need to install the required Python packages. You can find them in the requirements file. The easy way to do it is to use the command below.
+
+
 Commands
 ------------
 
