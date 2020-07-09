@@ -31,7 +31,7 @@ Jupyter Notebook
 
 Post
 ------------
-[Starbucks Mobile App: How to Send Right Offer to Right Person](https://www.keyanyang.com/data/2020/07/09/starbucks-mobile-app-how-to-send-right-offer-to-right-person#data-preparation)
+[Starbucks Mobile App: How to Send Right Offer to Right Person](https://www.keyanyang.com/data/2020/07/09/starbucks-mobile-app-how-to-send-right-offer-to-right-person)
 
 Project Organization
 ------------
@@ -40,6 +40,7 @@ Project Organization
     ├── Makefile           <- Makefile with commands like `make db`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
+    │   ├── interim        <- Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
     │   └── raw            <- The original, immutable data dump.
     │
