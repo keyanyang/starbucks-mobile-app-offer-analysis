@@ -9,11 +9,15 @@ from sklearn.model_selection import GridSearchCV
 
 
 def data_preparation(df, y, test_size=0.2, random_state=0):
-    """Standardize data then permute and split DataFrame index into train and test.
+    """
+    Standardize data then permute and split DataFrame index into train and test.
+
     Parameters
     ----------
     df: pandas.DataFrame
+        The dataset to be split into train and test set
     y: str
+        The name of response variable
     test_size: float
         Fraction between 0.0 and 1.0
     random_state: int
@@ -36,9 +40,21 @@ def data_preparation(df, y, test_size=0.2, random_state=0):
 
 
 class MajorityVoteClassifier:
-    """Majority Vote Classifier
-    This class contains the `fit` and `predict` methods that are compatible
+    """
+    A class contains the `fit` and `predict` methods that are compatible
     with the SciKit-Learn model classes.
+
+    Attributes
+    ----------
+    majority_vote: int
+        The mode of target values.
+    
+    Methods
+    ----------
+    fit(X, y)
+        Fit the model to a training data set.
+    predict(X)
+        Make predictions with the trained model.
     """
 
     def __init__(self):
@@ -58,15 +74,20 @@ class MajorityVoteClassifier:
 
 
 def run_majority_vote(X_train, y_train):
-    """Use the majority vote to predict survival.
+    """
+    Use the majority vote to predict survival.
+
     Parameters
     ----------
     X_train: numpy.ndarray
+        A subset to train a model.
     y_train: numpy.ndarray
+        A subset to test the trained model.
 
     Returns
     -------
-    classifier: Fitted estimator
+    classifier
+        Fitted estimator
     """
 
     logging.info("Running the majority vote classifier")
@@ -78,16 +99,21 @@ def run_majority_vote(X_train, y_train):
 
 
 def run_logistic_regression(X_train, y_train):
-    """Use ridge logistic regression to train model.
+    """
+    Use ridge logistic regression to train model.
     The ridge parameter is found using 5-fold cross-validation.
+
     Parameters
     ----------
     X_train: numpy.ndarray
+        A subset to train a model.
     y_train: numpy.ndarray
+        A subset to test the trained model.
 
     Returns
     -------
-    classifier: Fitted estimator
+    classifier
+        Fitted estimator
     """
 
     logging.info("Running the ridge logistic regression classifier")
@@ -116,16 +142,21 @@ def run_logistic_regression(X_train, y_train):
 
 
 def run_random_forest(X_train, y_train):
-    """Use random forest to train model.
-    The max_features parameter is found using 10-fold cross-validation.
+    """
+    Use random forest to train model.
+    The max_features parameter is found using 5-fold cross-validation.
+
     Parameters
     ----------
     X_train: numpy.ndarray
+        A subset to train a model.
     y_train: numpy.ndarray
+        A subset to test the trained model.
 
     Returns
     -------
-    classifier: Fitted estimator
+    classifier
+        Fitted estimator
     """
 
     logging.info("Running the random forest classifier")

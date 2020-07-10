@@ -13,6 +13,17 @@ def main(input_filepath, output_filepath):
     """
     Runs scripts to turn raw data from (../raw) into
     a queryable/indexable form (an SQL database saved in ../raw).
+
+    Parameters
+    ----------
+    input_filepath: str
+        The file location of the input data.
+    output_filepath: str
+        The file location of the output SQLite database.
+
+    Returns
+    -------
+    None
     """
     logger = logging.getLogger(__name__)
     logger.info('making database from raw data')
